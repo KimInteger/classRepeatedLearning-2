@@ -20,3 +20,15 @@ const formComponent = (action,method) => {
   </form>
   `;
 };
+
+const App = (formAction, formMethod) => {`
+
+`};
+
+const renderApp = (formAction, formMethod) => {
+
+};
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  renderApp("/submit","post");
+});
