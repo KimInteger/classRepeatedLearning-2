@@ -21,11 +21,11 @@ const formComponent = (action,method) => {
   `;
 };
 
-const App = (formAction, formMethod) => {`
+const App = (formAction, formMethod) => `
   <h1>함수의 리턴은</h1>
   <h2>사람의 머리를 맑게 해준다.</h2>
   ${formComponent(formAction, formMethod)}
-`};
+`;
 
 const renderApp = (formAction, formMethod) => {
   const appDiv = document.getElementById('root');
