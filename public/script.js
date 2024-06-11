@@ -1,13 +1,13 @@
-const getUserInfo = () => {
+const getUserInfo = (name, age, job) => {
   return {
-    name : "김정수",
-    age : 29,
-    job : "백수",
+    name : name,
+    age : age,
+    job : job,
   };
 };
 
-const formComponent = (action,method) => {
-  const userInfo = getUserInfo();
+const formComponent = (action,method,name,age,job) => {
+  const userInfo = getUserInfo(name,age,job);
   return `
   <form action = "${action}" method = "${method}">
     <label for = "name"> 이름 : </label>
@@ -21,17 +21,17 @@ const formComponent = (action,method) => {
   `;
 };
 
-const App = (formAction, formMethod) => `
+const App = (formAction, formMethod,name,age,job) => `
   <h1>함수의 리턴은</h1>
   <h2>사람의 머리를 맑게 해준다.</h2>
-  ${formComponent(formAction, formMethod)}
+  ${formComponent(formAction, formMethod,name,age,job)}
 `;
 
-const renderApp = (formAction, formMethod) => {
+const renderApp = (formAction, formMethod, name, age, job) => {
   const appDiv = document.getElementById('root');
-  appDiv.innerHTML = App(formAction, formMethod);
+  appDiv.innerHTML = App(formAction, formMethod, name, age, job);
 };
 
 document.addEventListener("DOMContentLoaded", ()=>{
-  renderApp("/submit","post");
+  renderApp("/submit","post","김정수",29,"딴따라");
 });
