@@ -8,8 +8,6 @@ const path = require('node:path');
 
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./Database/chinook.db');
-
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req,res)=>{
@@ -49,17 +47,25 @@ const server = http.createServer((req,res)=>{
     req.on('end',()=>{
       const parsedData = qs.parse(body);
       console.log(parsedData);
-
+      const db = new sqlite3.Database('./Database/chinook.db');
       db.serialize(()=>{
-        db.run("CREATE TABLE IF NOT EXISTS userInfo(name TEXT NOT NULL, age INTEGER NOT NULL, job TEXT NOT NULL)")
-
         const stmt = db.prepare("INSERT INTO userInfo(name, age, job) VALUES (?, ?, ?)");
-
+  
         stmt.run(parsedData.name,parsedData.age,parsedData.job);
 
         stmt.finalize();
       });
       db.close();
+      fs.readFile('./public/index.html',(err,data)=>{
+        if(err){
+          res.writeHead(500,{"Content-Type":"text/plain; charset=UTF-8"});
+          res.end("서버 자체 에러입니다.");
+          return;
+        } else {
+          res.writeHead(200,{"Content-Type":"text/html; charset-UTF0-8"});
+          res.end(data);
+        }
+      });
     });
   } else {
     res.writeHead(404,{"Content-Type" : "text/plain; charset=UTF-8"});
