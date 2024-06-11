@@ -49,6 +49,17 @@ const server = http.createServer((req,res)=>{
     req.on('end',()=>{
       const parsedData = qs.parse(body);
       console.log(parsedData);
+
+      db.serialize(()=>{
+        db.run("CREATE TABLE IF NOT EXISTS userInfo(name TEXT NOT NULL, age INTEGER NOT NULL, job TEXT NOT NULL)")
+
+        const stmt = db.prepare("INSERT INTO userInfo(name, age, job) VALUES (?, ?, ?)");
+
+        stmt.run(parsedData.name,parsedData.age,parsedData.job);
+
+        stmt.finalize();
+      });
+      db.close();
     });
   } else {
     res.writeHead(404,{"Content-Type" : "text/plain; charset=UTF-8"});
